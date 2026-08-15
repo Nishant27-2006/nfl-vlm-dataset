@@ -1,0 +1,49 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# builds
+/build
+/dist
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+env/
+*.egg-info/
+.ipynb_checkpoints/
+
+# secrets - never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+
+# local db / logs / caches
+*.db
+*.sqlite
+*.sqlite3
+*.log
+data_cache/
+.vercel
+.cache/
+
+# os
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# generated datasets (3GB) - rebuild via scripts/
+data/processed/
+data/raw/
+*.parquet
+nfl_pbp_data/

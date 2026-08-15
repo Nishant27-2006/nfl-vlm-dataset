@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Excel Data Viewer</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Excel Data Viewer</h1>
+
+  <div id="excel-container">
+    <!-- Table will be dynamically inserted here -->
+  </div>
+
+  <script>
+    //  **IMPORTANT: This is a simplified example. It requires an external library like SheetJS to read the Excel file.**
+    //  For a complete solution, you'll need to include the SheetJS library and use its API.  I'm providing a placeholder
+    //  to illustrate the structure, but it won't function without the library.
+
+    // Example of how to load data and dynamically create the table (Conceptual - needs SheetJS)
+    async function loadExcelData() {
+      try {
+        // **Replace with your SheetJS code**
+        // This is a placeholder - you'll need to implement the actual loading logic here
+        // using the SheetJS library to read the Excel file.
+
+        const response = await fetch('your-excel-file.xlsx'); // Replace 'your-excel-file.xlsx' with your actual file name
+        const data = await response.text(); // Or response.json() depending on the Excel file format
+
+        // Assuming the response is a CSV string, convert it to a JavaScript array
+        const rows = data.split('\n').map(row => row.split(','));
+
+        // Create the table element
+        const excelContainer = document.getElementById('excel-container');
+
+        // Create table header
+        let tableHeader = '<thead><tr>';
+        if(rows.length > 0){ // check that there is data to make a header row
+          rows[0].forEach(header => {
+            tableHeader += `<th>${header}</th>`;
+          });
+        }
+        tableHeader += '</tr></thead>';
+
+        // Create table body
+        let tableBody = '<tbody>';
+        for (let i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
+          let rowData = '';
+          rows[i].forEach(cellData => {
+            rowData += `<td>${cellData}</td>`;
+          });
+          tableBody += `<tr>${rowData}</tr>`;
+        }
+        tableBody += '</tbody>';
+
+
+        const table = document.createElement('table');
+        table.innerHTML = tableHeader + tableBody;
+        excelContainer.appendChild(table);
+
+
+      } catch (error) {
+        console.error('Error loading Excel data:', error);
+        const excelContainer = document.getElementById('excel-container');
+        const errorText = document.createElement('p');
+        errorText.textContent = 'Error loading data from Excel file.  Please ensure the file is accessible and the SheetJS library is properly installed and configured.';
+        excelContainer.appendChild(errorText);
+      }
+    }
+
+    // Call the function to load the data when the page loads
+    window.onload = loadExcelData;
+  </script>
+
+</body>
+</html>
